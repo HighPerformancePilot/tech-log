@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Sector Log</title>
+<meta name="theme-color" content="#0A0C0F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sector Log">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0C0F; --bg2:#0F1215; --bg3:#141820; --bg4:#1A2030;
+  --amber:#F5A623; --amber-dim:#C4841A; --amber-glow:rgba(245,166,35,0.15);
+  --border:rgba(245,166,35,0.2); --border-bright:rgba(245,166,35,0.4);
+  --text:#E8DFC8; --text-dim:#9A8E78; --text-muted:#5A5448;
+  --cyan:#5EE6D0; --green:#8BD17C;
+  --red:#E15555; --red-glow:rgba(225,85,85,0.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--bg);height:100%;}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Rajdhani',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;min-height:100dvh;
+  max-width:430px;margin:0 auto;
+  padding-bottom:env(safe-area-inset-bottom,24px);
+  overscroll-behavior:none;
+}
+
+/* ── Header ─────────────────────────────── */
+.appbar{
+  padding:env(safe-area-inset-top,14px) 16px 0;
+  border-bottom:1px solid var(--border);
+}
+.appbar-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:14px;
+}
+.app-eyebrow{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:3px;
+}
+.app-title{font-size:20px;font-weight:700;letter-spacing:-.01em;}
+
+/* ── Action bar ──────────────────────────── */
+.actionbar{
+  position:sticky;top:0;z-index:30;background:var(--bg);
+  padding:10px 16px 12px;display:flex;gap:10px;
+  border-bottom:1px solid var(--border);
+}
+.actionbar::after{
+  content:'';position:absolute;left:0;right:0;bottom:-8px;height:8px;
+  background:linear-gradient(to bottom,var(--bg),transparent);
+  pointer-events:none;
+}
+.btn-reset{
+  flex:1;background:transparent;color:var(--text);
+  border:1px solid var(--border);border-radius:10px;
+  padding:14px 8px;font-family:'Rajdhani',sans-serif;
+  font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  transition:border-color .15s,color .15s;
+}
+.btn-reset.armed{border-color:var(--red);color:var(--red);font-size:12px;}
+.btn-continue{
+  flex:2;background:var(--amber);color:#1a0e00;border:none;
+  border-radius:10px;padding:14px 8px;
+  font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.btn-continue.armed{background:var(--red);color:#fff;font-size:11px;}
+.btn-continue:active,.btn-reset:active{opacity:.82;}
+
+/* ── Wrap ────────────────────────────────── */
+.wrap{padding:16px 16px 32px;}
+
+/* ── Sector card ─────────────────────────── */
+.sector-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:14px;padding:18px;margin-bottom:16px;
+}
+.sector-head{
+  display:flex;align-items:center;gap:10px;margin-bottom:18px;
+}
+.s-badge{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--amber);color:#1a0e00;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Share Tech Mono',monospace;font-weight:700;font-size:15px;flex-shrink:0;
+}
+.s-label{
+  font-size:13px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--text-dim);
+}
+.s-pos{
+  margin-left:auto;font-family:'Share Tech Mono',monospace;
+  font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);
+}
+
+/* ── Group label ─────────────────────────── */
+.grp-lbl{
+  font-family:'Share Tech Mono',monospace;font-size:9px;
+  letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--amber);opacity:.55;margin:18px 0 12px;
+}
+.grp-lbl:first-of-type{margin-top:0;}
+
+/* ── Flow rows (BF / CF with +/= operators) ─ */
+.flow-row{
+  display:flex;align-items:center;gap:10px;padding:6px 0;
+}
+.flow-op{
+  font-family:'Share Tech Mono',monospace;font-size:16px;
+  color:var(--text-muted);width:16px;text-align:center;flex-shrink:0;
+}
+.flow-lbl{font-size:13px;color:var(--text-dim);flex:1;}
+.flow-lbl.editable{color:var(--text);}
+
+/* ── Readouts ────────────────────────────── */
+.readout{
+  font-family:'Share Tech Mono',monospace;font-size:18px;
+  color:var(--text-dim);background:var(--bg2);
+  border-radius:8px;padding:8px 12px;
+  text-align:center;font-variant-numeric:tabular-nums;flex-shrink:0;
+}
+.readout.hours{min-width:106px;}
+.readout.landings{min-width:62px;}
+.readout.cf{
+  color:var(--text);font-size:21px;font-weight:700;
+  background:transparent;border:1px solid var(--amber);
+}
+.readout.cf.hours{min-width:118px;}
+.readout.cf.landings{min-width:68px;}
+
+/* ── Flight time stepper ─────────────────── */
+.time-stepper{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.ts-unit{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.ts-lbl{
+  font-family:'Share Tech Mono',monospace;font-size:8px;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);
+}
+.ts-row{display:flex;align-items:center;gap:4px;}
+.ts-btn{
+  width:36px;height:36px;background:var(--bg4);border:1px solid var(--border);
+  border-radius:8px;color:var(--amber);font-size:20px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;user-select:none;flex-shrink:0;
+}
+.ts-btn:active{background:var(--amber-glow);}
+.ts-val{
+  font-family:'Share Tech Mono',monospace;font-size:22px;
+  color:var(--text);min-width:34px;text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+.ts-sep{
+  font-family:'Share Tech Mono',monospace;font-size:22px;
+  color:var(--text-muted);padding:0 2px;
+  align-self:flex-end;padding-bottom:4px;
+}
+
+/* ── Landings picker ─────────────────────── */
+.land-picker{display:flex;gap:8px;flex-shrink:0;}
+.lp-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--bg4);border:1px solid var(--border);
+  color:var(--text-dim);font-family:'Share Tech Mono',monospace;
+  font-size:17px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;
+  transition:background .12s,color .12s,border-color .12s;
+}
+.lp-btn.active{background:var(--amber);color:#1a0e00;border-color:var(--amber);}
+.lp-btn:active{opacity:.8;}
+
+/* ── Sector 1 BF inputs ───────────────────── */
+.bf-inputs{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.bf-input{
+  background:var(--bg2);border:1px solid var(--border-bright);
+  border-radius:8px;color:var(--text);
+  font-family:'Share Tech Mono',monospace;font-size:18px;
+  text-align:center;padding:8px 6px;
+  -webkit-appearance:none;appearance:none;outline:none;
+}
+.bf-input:focus{border-color:var(--amber);}
+.bf-input.hours{width:88px;}
+.bf-input.minutes{width:52px;}
+.bf-input.landings{width:76px;}
+.bf-sep{font-family:'Share Tech Mono',monospace;font-size:18px;color:var(--text-muted);}
+
+/* ── Divider ─────────────────────────────── */
+.divider{height:1px;background:var(--border);margin:14px 0;}
+
+/* ── Footer ──────────────────────────────── */
+.footer{
+  text-align:center;font-family:'Share Tech Mono',monospace;
+  font-size:8px;letter-spacing:1px;text-transform:uppercase;
+  color:var(--text-muted);padding:16px 0 4px;
+  border-top:1px solid var(--border);margin:0 16px;
+}
+</style>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="appbar-inner">
+    <div>
+      <div class="app-eyebrow">Carry-forward, automated</div>
+      <div class="app-title">Sector Log</div>
+    </div>
+  </div>
+</header>
+
+<div class="actionbar">
+  <button class="btn-reset" id="btn-reset">Reset</button>
+  <button class="btn-continue" id="btn-continue">Continue →</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ═══════════════ SECTOR 3 ═══════════════ -->
+  <div class="sector-card">
+    <div class="sector-head">
+      <div class="s-badge">3</div>
+      <div class="s-label">Sector 3</div>
+      <div class="s-pos">Top of page</div>
+    </div>
+
+    <div class="grp-lbl">Flight Hours</div>
+
+    <div class="flow-row">
+      <div class="flow-op"></div>
+      <div class="flow-lbl editable">This Sector</div>
+      <div class="time-stepper">
+        <div class="ts-unit">
+          <div class="ts-row">
+            <button class="ts-btn" onclick="adjH(3,-1)">−</button>
+            <div class="ts-val" id="s3-fh-val">00</div>
+            <button class="ts-btn" onclick="adjH(3,1)">+</button>
+          </div>
+          <div class="ts-lbl">HRS</div>
+        </div>
+        <div class="ts-sep">:</div>
+        <div class="ts-unit">
+          <div class="ts-row">
+            <button class="ts-btn" onclick="adjM(3,-5)">−</button>
+            <div class="ts-val" id="s3-fm-val">00</div>
+            <button class="ts-btn" onclick="adjM(3,5)">+</button>
+          </div>
+          <div class="ts-lbl">MIN</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-row">
+      <div class="flow-op">+</div>
+      <div class="flow-lbl">Brought Forward</div>
+      <div class="readout hours" id="s3-bf">0:00</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op">=</div>
+      <div class="flow-lbl">Carry Forward</div>
+      <div class="readout cf hours" id="s3-cf">0:00</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="grp-lbl">Landings</div>
+
+    <div class="flow-row">
+      <div class="flow-op">+</div>
+      <div class="flow-lbl">Brought Forward</div>
+      <div class="readout landings" id="s3-landbf">0</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op"></div>
+      <div class="flow-lbl editable">This Sector</div>
+      <div class="land-picker" id="s3-land">
+        <button class="lp-btn active" data-v="1" onclick="setLand(3,1)">1</button>
+        <button class="lp-btn" data-v="2" onclick="setLand(3,2)">2</button>
+        <button class="lp-btn" data-v="3" onclick="setLand(3,3)">3</button>
+        <button class="lp-btn" data-v="4" onclick="setLand(3,4)">4</button>
+        <button class="lp-btn" data-v="5" onclick="setLand(3,5)">5</button>
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op">=</div>
+      <div class="flow-lbl">Carry Forward</div>
+      <div class="readout cf landings" id="s3-landcf">0</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTOR 2 ═══════════════ -->
+  <div class="sector-card">
+    <div class="sector-head">
+      <div class="s-badge">2</div>
+      <div class="s-label">Sector 2</div>
+    </div>
+
+    <div class="grp-lbl">Flight Hours</div>
+
+    <div class="flow-row">
+      <div class="flow-op"></div>
+      <div class="flow-lbl editable">This Sector</div>
+      <div class="time-stepper">
+        <div class="ts-unit">
+          <div class="ts-row">
+            <button class="ts-btn" onclick="adjH(2,-1)">−</button>
+            <div class="ts-val" id="s2-fh-val">00</div>
+            <button class="ts-btn" onclick="adjH(2,1)">+</button>
+          </div>
+          <div class="ts-lbl">HRS</div>
+        </div>
+        <div class="ts-sep">:</div>
+        <div class="ts-unit">
+          <div class="ts-row">
+            <button class="ts-btn" onclick="adjM(2,-5)">−</button>
+            <div class="ts-val" id="s2-fm-val">00</div>
+            <button class="ts-btn" onclick="adjM(2,5)">+</button>
+          </div>
+          <div class="ts-lbl">MIN</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-row">
+      <div class="flow-op">+</div>
+      <div class="flow-lbl">Brought Forward</div>
+      <div class="readout hours" id="s2-bf">0:00</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op">=</div>
+      <div class="flow-lbl">Carry Forward</div>
+      <div class="readout cf hours" id="s2-cf">0:00</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="grp-lbl">Landings</div>
+
+    <div class="flow-row">
+      <div class="flow-op">+</div>
+      <div class="flow-lbl">Brought Forward</div>
+      <div class="readout landings" id="s2-landbf">0</div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op"></div>
+      <div class="flow-lbl editable">This Sector</div>
+      <div class="land-picker" id="s2-land">
+        <button class="lp-btn active" data-v="1" onclick="setLand(2,1)">1</button>
+        <button class="lp-btn" data-v="2" onclick="setLand(2,2)">2</button>
+        <button class="lp-btn" data-v="3" onclick="setLand(2,3)">3</button>
+        <button class="lp-btn" data-v="4" onclick="setLand(2,4)">4</button>
+        <button class="lp-btn" data-v="5" onclick="setLand(2,5)">5</button>
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op">=</div>
+      <div class="flow-lbl">Carry Forward</div>
+      <div class="readout cf landings" id="s2-landcf">0</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SECTOR 1 ═══════════════ -->
+  <div class="sector-card">
+    <div class="sector-head">
+      <div class="s-badge">1</div>
+      <div class="s-label">Sector 1</div>
+      <div class="s-pos">Bottom of page</div>
+    </div>
+
+    <div class="grp-lbl">Flight Hours</div>
+
+    <div class="flow-row">
+      <div class="flow-op"></div>
+      <div class="flow-lbl editable">This Sector</div>
+      <div class="time-stepper">
+        <div class="ts-unit">
+          <div class="ts-row">
+            <button class="ts-btn" onclick="adjH(1,-1)">−</button>
+            <div class="ts-val" id="s1-fh-val">00</div>
+            <button class="ts-btn" onclick="adjH(1,1)">+</button>
+          </div>
+          <div class="ts-lbl">HRS</div>
+        </div>
+        <div class="ts-sep">:</div>
+        <div class="ts-unit">
+          <div class="ts-row">
+            <button class="ts-btn" onclick="adjM(1,-5)">−</button>
+            <div class="ts-val" id="s1-fm-val">00</div>
+            <button class="ts-btn" onclick="adjM(1,5)">+</button>
+          </div>
+          <div class="ts-lbl">MIN</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-row">
+      <div class="flow-op">+</div>
+      <div class="flow-lbl editable">Brought Forward <span style="opacity:.5;font-size:11px;">(start of page)</span></div>
+      <div class="bf-inputs">
+        <input type="number" class="bf-input hours" id="s1-bf-h" min="0" value="0" inputmode="numeric" oninput="render()" onchange="render()">
+        <div class="bf-sep">:</div>
+        <input type="number" class="bf-input minutes" id="s1-bf-m" min="0" max="59" value="0" inputmode="numeric" oninput="render()" onchange="normM();render()">
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op">=</div>
+      <div class="flow-lbl">Carry Forward</div>
+      <div class="readout cf hours" id="s1-cf">0:00</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="grp-lbl">Landings</div>
+
+    <div class="flow-row">
+      <div class="flow-op">+</div>
+      <div class="flow-lbl editable">Brought Forward <span style="opacity:.5;font-size:11px;">(start of page)</span></div>
+      <input type="number" class="bf-input landings" id="s1-landbf" min="0" value="0" inputmode="numeric" oninput="render()" onchange="render()">
+    </div>
+    <div class="flow-row">
+      <div class="flow-op"></div>
+      <div class="flow-lbl editable">This Sector</div>
+      <div class="land-picker" id="s1-land">
+        <button class="lp-btn active" data-v="1" onclick="setLand(1,1)">1</button>
+        <button class="lp-btn" data-v="2" onclick="setLand(1,2)">2</button>
+        <button class="lp-btn" data-v="3" onclick="setLand(1,3)">3</button>
+        <button class="lp-btn" data-v="4" onclick="setLand(1,4)">4</button>
+        <button class="lp-btn" data-v="5" onclick="setLand(1,5)">5</button>
+      </div>
+    </div>
+    <div class="flow-row">
+      <div class="flow-op">=</div>
+      <div class="flow-lbl">Carry Forward</div>
+      <div class="readout cf landings" id="s1-landcf">0</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Sector Log · Reference only · Not a substitute for the paper technical log</div>
+
+<script>
+'use strict';
+
+/* ── State ───────────────────────────────── */
+var state = {
+  fh: [0, 0, 0],    // flight hours [s1, s2, s3]
+  fm: [0, 0, 0],    // flight minutes
+  land: [1, 1, 1],  // landings this sector
+  bfH: 0,           // s1 brought forward hours
+  bfM: 0,           // s1 brought forward minutes
+  bfLand: 0         // s1 brought forward landings
+};
+var STORE = 'sector-log-iphone-v1';
+
+function save(){
+  try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){}
+}
+function load(){
+  try{
+    var d = localStorage.getItem(STORE);
+    if(d) Object.assign(state, JSON.parse(d));
+  }catch(e){}
+}
+
+/* ── Helpers ─────────────────────────────── */
+function el(id){ return document.getElementById(id); }
+function setText(id, txt){ var n = el(id); if(n) n.textContent = txt; }
+function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtHM(totalMin){
+  if(totalMin < 0) totalMin = 0;
+  return Math.floor(totalMin/60) + ':' + pad2(totalMin%60);
+}
+
+/* ── Flight time steppers ────────────────── */
+function adjH(sector, delta){
+  var i = sector - 1;
+  state.fh[i] = Math.max(0, Math.min(23, state.fh[i] + delta));
+  el('s'+sector+'-fh-val').textContent = pad2(state.fh[i]);
+  render(); save();
+}
+function adjM(sector, delta){
+  var i = sector - 1;
+  state.fm[i] = ((state.fm[i] + delta) % 60 + 60) % 60;
+  el('s'+sector+'-fm-val').textContent = pad2(state.fm[i]);
+  render(); save();
+}
+
+/* ── Landings picker ─────────────────────── */
+function setLand(sector, value){
+  state.land[sector-1] = value;
+  var container = el('s'+sector+'-land');
+  container.querySelectorAll('.lp-btn').forEach(function(btn){
+    btn.classList.toggle('active', parseInt(btn.dataset.v) === value);
+  });
+  render(); save();
+}
+function syncLandUI(sector){
+  var val = state.land[sector-1];
+  var container = el('s'+sector+'-land');
+  container.querySelectorAll('.lp-btn').forEach(function(btn){
+    btn.classList.toggle('active', parseInt(btn.dataset.v) === val);
+  });
+}
+
+/* ── BF minute normalisation ─────────────── */
+function normM(){
+  var m = parseInt(el('s1-bf-m').value, 10);
+  if(isNaN(m)||m<0) m=0;
+  if(m>59) m=59;
+  el('s1-bf-m').value = m;
+}
+
+/* ── Core render ─────────────────────────── */
+function render(){
+  // Read Sector 1 BF
+  var bfH = Math.max(0, parseInt(el('s1-bf-h').value,10)||0);
+  var bfM = Math.max(0, Math.min(59, parseInt(el('s1-bf-m').value,10)||0));
+  var bfMin = bfH*60 + bfM;
+  var bfLand = Math.max(0, parseInt(el('s1-landbf').value,10)||0);
+  state.bfH = bfH; state.bfM = bfM; state.bfLand = bfLand;
+
+  // Sector 1
+  var s1FlightMin = state.fh[0]*60 + state.fm[0];
+  var s1CfMin = bfMin + s1FlightMin;
+  var s1LandCf = bfLand + state.land[0];
+  setText('s1-cf', fmtHM(s1CfMin));
+  setText('s1-landcf', String(s1LandCf));
+
+  // Sector 2
+  var s2FlightMin = state.fh[1]*60 + state.fm[1];
+  var s2CfMin = s1CfMin + s2FlightMin;
+  var s2LandCf = s1LandCf + state.land[1];
+  setText('s2-bf', fmtHM(s1CfMin));
+  setText('s2-landbf', String(s1LandCf));
+  setText('s2-cf', fmtHM(s2CfMin));
+  setText('s2-landcf', String(s2LandCf));
+
+  // Sector 3
+  var s3FlightMin = state.fh[2]*60 + state.fm[2];
+  var s3CfMin = s2CfMin + s3FlightMin;
+  var s3LandCf = s2LandCf + state.land[2];
+  setText('s3-bf', fmtHM(s2CfMin));
+  setText('s3-landbf', String(s2LandCf));
+  setText('s3-cf', fmtHM(s3CfMin));
+  setText('s3-landcf', String(s3LandCf));
+
+  save();
+}
+
+/* ── Reset / Continue with tap-to-confirm ── */
+function armConfirm(btnId, normalLabel, getConfirmLabel, action){
+  var btn = el(btnId);
+  var armed = false, timer = null;
+  btn.textContent = normalLabel;
+  btn.addEventListener('click', function(){
+    if(!armed){
+      armed = true;
+      btn.textContent = getConfirmLabel();
+      btn.classList.add('armed');
+      timer = setTimeout(function(){
+        armed = false; btn.textContent = normalLabel; btn.classList.remove('armed');
+      }, 4000);
+    } else {
+      clearTimeout(timer);
+      armed = false; btn.textContent = normalLabel; btn.classList.remove('armed');
+      action();
+    }
+  });
+}
+
+function doReset(){
+  state.fh = [0,0,0]; state.fm = [0,0,0]; state.land = [1,1,1];
+  state.bfH = 0; state.bfM = 0; state.bfLand = 0;
+  el('s1-bf-h').value = 0; el('s1-bf-m').value = 0; el('s1-landbf').value = 0;
+  [1,2,3].forEach(function(s){
+    el('s'+s+'-fh-val').textContent = '00';
+    el('s'+s+'-fm-val').textContent = '00';
+    syncLandUI(s);
+  });
+  state.land = [1,1,1];
+  [1,2,3].forEach(syncLandUI);
+  render();
+}
+
+function doContinue(){
+  // Capture Sector 3 carry-forward values
+  var bfH = Math.max(0, parseInt(el('s1-bf-h').value,10)||0);
+  var bfM = Math.max(0, Math.min(59, parseInt(el('s1-bf-m').value,10)||0));
+  var bfMin = bfH*60 + bfM;
+  var bfLand = Math.max(0, parseInt(el('s1-landbf').value,10)||0);
+
+  var s1Cf = bfMin + state.fh[0]*60 + state.fm[0];
+  var s2Cf = s1Cf + state.fh[1]*60 + state.fm[1];
+  var s3Cf = s2Cf + state.fh[2]*60 + state.fm[2];
+  var s1LandCf = bfLand + state.land[0];
+  var s2LandCf = s1LandCf + state.land[1];
+  var s3LandCf = s2LandCf + state.land[2];
+
+  // Reset flight times and landings
+  state.fh = [0,0,0]; state.fm = [0,0,0]; state.land = [1,1,1];
+  [1,2,3].forEach(function(s){
+    el('s'+s+'-fh-val').textContent = '00';
+    el('s'+s+'-fm-val').textContent = '00';
+  });
+  [1,2,3].forEach(syncLandUI);
+
+  // Write Sector 3 CF into Sector 1 BF
+  el('s1-bf-h').value = Math.floor(s3Cf/60);
+  el('s1-bf-m').value = s3Cf%60;
+  el('s1-landbf').value = s3LandCf;
+
+  render();
+}
+
+/* ── Restore UI from state ───────────────── */
+function restoreUI(){
+  [1,2,3].forEach(function(s){
+    el('s'+s+'-fh-val').textContent = pad2(state.fh[s-1]);
+    el('s'+s+'-fm-val').textContent = pad2(state.fm[s-1]);
+    syncLandUI(s);
+  });
+  el('s1-bf-h').value = state.bfH;
+  el('s1-bf-m').value = state.bfM;
+  el('s1-landbf').value = state.bfLand;
+}
+
+/* ── Init ────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', function(){
+  load();
+  restoreUI();
+  render();
+  armConfirm('btn-reset', 'Reset',
+    function(){ return 'Tap again: wipe all'; },
+    doReset
+  );
+  armConfirm('btn-continue', 'Continue →',
+    function(){
+      var bfH = parseInt(el('s1-bf-h').value,10)||0;
+      var bfM = parseInt(el('s1-bf-m').value,10)||0;
+      var bfMin = bfH*60+bfM;
+      var bfLand = parseInt(el('s1-landbf').value,10)||0;
+      var s3Cf = bfMin + state.fh[0]*60+state.fm[0] + state.fh[1]*60+state.fm[1] + state.fh[2]*60+state.fm[2];
+      var s3LandCf = bfLand + state.land[0] + state.land[1] + state.land[2];
+      return 'Carry ' + fmtHM(s3Cf) + ' · ' + s3LandCf + ' ldg';
+    },
+    doContinue
+  );
+});
+</script>
+</body>
+</html>
