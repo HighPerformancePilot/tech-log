@@ -276,7 +276,7 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;-w
     </div>
 
     <!-- ── Button group — sits above Sector 1, below new sectors ── -->
-    <div class="btn-group">
+    <div class="btn-group" id="btn-group">
       <button class="btn-add" id="btn-add" onclick="addSector()">Add Sector 2 →</button>
       <button class="btn-newpage" id="btn-newpage" onclick="handleNewPage()">New Page →</button>
       <button class="btn-reset" onclick="resetAll()">Reset</button>
@@ -385,16 +385,17 @@ function updateAddBtn(){
 
 function addSector(){
   if(S.visible>=4)return;
-  // Collapse current top sector
   collapseSector(S.visible);
-  // Reveal next sector expanded
   S.visible++;
   el('sc-'+S.visible).style.display='block';
   expandSector(S.visible);
+  // Move button group to sit immediately below the new current sector
+  var btnGroup=el('btn-group');
+  var cur=el('sc-'+S.visible);
+  cur.parentNode.insertBefore(btnGroup,cur.nextElementSibling);
   updateAddBtn();
   save();
-  // Scroll to new sector
-  setTimeout(function(){el('sc-'+S.visible).scrollIntoView({behavior:'smooth',block:'start'});},50);
+  setTimeout(function(){cur.scrollIntoView({behavior:'smooth',block:'start'});},50);
 }
 
 /* New page */
@@ -477,6 +478,10 @@ function restoreUI(){
     }
   });
   updateChip();updateAddBtn();
+  // Restore button group position below the current active sector
+  var btnGroup=el('btn-group');
+  var cur=el('sc-'+S.visible);
+  cur.parentNode.insertBefore(btnGroup,cur.nextElementSibling);
 }
 
 /* Init */
