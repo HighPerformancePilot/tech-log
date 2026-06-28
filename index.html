@@ -194,6 +194,13 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;-w
       <div class="chip-edit">EDIT</div>
     </div>
 
+    <!-- ── Button group — always at top, new sectors appear below ── -->
+    <div class="btn-group" id="btn-group">
+      <button class="btn-add" id="btn-add" onclick="addSector()">Add Sector 2 →</button>
+      <button class="btn-newpage" id="btn-newpage" onclick="handleNewPage()">New Page →</button>
+      <button class="btn-reset" onclick="resetAll()">Reset</button>
+    </div>
+
     <!-- ── Sector 4 ── -->
     <div class="sector-card" id="sc-4" style="display:none;">
       <div class="sector-head">
@@ -273,13 +280,6 @@ body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;-w
         </div>
         <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf landings" id="s2-landcf">0</div></div>
       </div>
-    </div>
-
-    <!-- ── Button group — sits above Sector 1, below new sectors ── -->
-    <div class="btn-group" id="btn-group">
-      <button class="btn-add" id="btn-add" onclick="addSector()">Add Sector 2 →</button>
-      <button class="btn-newpage" id="btn-newpage" onclick="handleNewPage()">New Page →</button>
-      <button class="btn-reset" onclick="resetAll()">Reset</button>
     </div>
 
     <!-- ── Sector 1 — always at bottom ── -->
@@ -389,13 +389,9 @@ function addSector(){
   S.visible++;
   el('sc-'+S.visible).style.display='block';
   expandSector(S.visible);
-  // Move button group to sit immediately below the new current sector
-  var btnGroup=el('btn-group');
-  var cur=el('sc-'+S.visible);
-  cur.parentNode.insertBefore(btnGroup,cur.nextElementSibling);
   updateAddBtn();
   save();
-  setTimeout(function(){cur.scrollIntoView({behavior:'smooth',block:'start'});},50);
+  setTimeout(function(){ window.scrollTo({top:0,behavior:'smooth'}); },50);
 }
 
 /* New page */
@@ -478,10 +474,6 @@ function restoreUI(){
     }
   });
   updateChip();updateAddBtn();
-  // Restore button group position below the current active sector
-  var btnGroup=el('btn-group');
-  var cur=el('sc-'+S.visible);
-  cur.parentNode.insertBefore(btnGroup,cur.nextElementSibling);
 }
 
 /* Init */
