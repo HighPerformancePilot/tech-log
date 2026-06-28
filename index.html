@@ -16,7 +16,7 @@
   --amber:#F5A623; --amber-dim:#C4841A; --amber-glow:rgba(245,166,35,0.15);
   --border:rgba(245,166,35,0.2); --border-bright:rgba(245,166,35,0.4);
   --text:#E8DFC8; --text-dim:#9A8E78; --text-muted:#5A5448;
-  --cyan:#5EE6D0; --red:#E15555;
+  --cyan:#5EE6D0; --red:#E15555; --red-glow:rgba(225,85,85,0.15);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{background:var(--bg);height:100%;}
@@ -29,52 +29,45 @@ body{
   overscroll-behavior:none;
 }
 
-/* ── Header ─────────────────────────────── */
+/* Header */
 .appbar{padding:env(safe-area-inset-top,14px) 16px 0;border-bottom:1px solid var(--border);}
-.appbar-inner{display:flex;align-items:center;padding-bottom:14px;}
+.appbar-inner{padding-bottom:14px;}
 .app-eyebrow{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:3px;}
-.app-title{font-size:20px;font-weight:700;letter-spacing:-.01em;}
+.app-title{font-size:20px;font-weight:700;}
 
-/* ── Phases ──────────────────────────────── */
+/* Phases */
 .phase{display:none;}
 .phase.active{display:block;}
-
-/* ── Wrap ────────────────────────────────── */
 .wrap{padding:16px 16px 32px;}
 
-/* ── Cards ───────────────────────────────── */
-.card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px;}
+/* Card */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:14px;}
 .card-title{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);margin-bottom:16px;}
 
-/* ── Setup chip ─────────────────────────── */
-.setup-chip{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:var(--bg3);border:1px solid var(--border);border-radius:10px;
-  padding:12px 14px;margin-bottom:14px;
-  cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;
-}
+/* Setup chip */
+.setup-chip{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;}
 .setup-chip:active{background:var(--bg4);}
 .chip-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:3px;}
-.chip-vals{font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--text);letter-spacing:1px;}
+.chip-vals{font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--text);}
 .chip-edit{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);border:1px solid var(--border);border-radius:5px;padding:5px 10px;flex-shrink:0;}
 
-/* ── Group label ─────────────────────────── */
+/* Group label */
 .grp-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:var(--amber);opacity:.55;margin:16px 0 10px;}
 .grp-lbl:first-of-type{margin-top:0;}
 
-/* ── Sector head ─────────────────────────── */
+/* Sector head */
 .sector-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .s-badge{width:28px;height:28px;border-radius:50%;background:var(--amber);color:#1a0e00;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-weight:700;font-size:14px;flex-shrink:0;}
 .s-label{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);}
 .s-pos{margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);}
 
-/* ── Flow rows ───────────────────────────── */
+/* Flow rows */
 .flow-row{display:flex;align-items:center;gap:10px;padding:5px 0;}
 .flow-op{font-family:'Share Tech Mono',monospace;font-size:16px;color:var(--text-muted);width:16px;text-align:center;flex-shrink:0;}
 .flow-lbl{font-size:13px;color:var(--text-dim);flex:1;}
 .flow-lbl.ed{color:var(--text);}
 
-/* ── Readouts ────────────────────────────── */
+/* Readouts */
 .readout{font-family:'Share Tech Mono',monospace;font-size:17px;color:var(--text-dim);background:var(--bg2);border-radius:8px;padding:8px 10px;text-align:center;font-variant-numeric:tabular-nums;flex-shrink:0;}
 .readout.hours{min-width:100px;}
 .readout.landings{min-width:56px;}
@@ -82,7 +75,7 @@ body{
 .readout.cf.hours{min-width:112px;}
 .readout.cf.landings{min-width:64px;}
 
-/* ── Hours stepper ───────────────────────── */
+/* Hours stepper */
 .time-stepper{display:flex;align-items:flex-end;gap:6px;flex-shrink:0;}
 .ts-unit{display:flex;flex-direction:column;align-items:center;gap:3px;}
 .ts-lbl{font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);}
@@ -95,7 +88,7 @@ body{
 .min-input::placeholder{color:var(--text-muted);}
 .min-input:focus{border-color:var(--amber);}
 
-/* ── Landing scroll wheel ────────────────── */
+/* Landing wheel */
 .land-wheel{position:relative;width:60px;height:132px;overflow-y:scroll;-webkit-overflow-scrolling:touch;scroll-snap-type:y mandatory;background:var(--bg4);border:1px solid var(--border);border-radius:10px;scrollbar-width:none;flex-shrink:0;}
 .land-wheel::-webkit-scrollbar{display:none;}
 .land-wheel-track{padding:44px 0;}
@@ -105,7 +98,7 @@ body{
 .land-wheel-ft{top:0;background:linear-gradient(to bottom,var(--bg4),transparent);}
 .land-wheel-fb{bottom:0;background:linear-gradient(to top,var(--bg4),transparent);}
 
-/* ── Setup BF inputs ─────────────────────── */
+/* Setup inputs */
 .setup-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
 .setup-field{display:flex;flex-direction:column;gap:7px;}
 .sf-lbl{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--amber);}
@@ -118,19 +111,20 @@ body{
 .sf-inp.landings{width:100%;}
 .sf-sep{font-family:'Share Tech Mono',monospace;font-size:20px;color:var(--text-muted);}
 
-/* ── Buttons ─────────────────────────────── */
+/* Divider */
+.divider{height:1px;background:var(--border);margin:12px 0;}
+
+/* Buttons */
 .btn-primary{width:100%;background:var(--amber);color:#1a0e00;border:none;border-radius:10px;padding:17px;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-top:8px;}
 .btn-primary:active{opacity:.82;}
-.btn-add{width:100%;background:transparent;color:var(--amber);border:1px solid var(--amber);border-radius:10px;padding:15px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-top:4px;}
+.btn-add{width:100%;background:transparent;color:var(--amber);border:1px solid var(--amber);border-radius:10px;padding:15px;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-top:8px;}
 .btn-add:active{background:var(--amber-glow);}
-.btn-add.armed{background:var(--red);color:#fff;border-color:var(--red);font-size:12px;}
+.btn-newpage{width:100%;background:transparent;color:var(--text-dim);border:1px solid var(--border);border-radius:10px;padding:14px;font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-top:8px;transition:border-color .15s,color .15s;}
+.btn-newpage.armed{background:var(--amber);color:#1a0e00;border-color:var(--amber);font-size:11px;}
 .btn-reset-sm{width:100%;background:transparent;color:var(--text-muted);border:1px solid var(--border);border-radius:10px;padding:13px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-top:8px;}
 .btn-reset-sm:active{color:var(--red);border-color:var(--red);}
 
-/* ── Divider ─────────────────────────────── */
-.divider{height:1px;background:var(--border);margin:12px 0;}
-
-/* ── Footer ──────────────────────────────── */
+/* Footer */
 .footer{text-align:center;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);padding:16px 0 4px;border-top:1px solid var(--border);margin:0 16px;}
 </style>
 </head>
@@ -138,47 +132,40 @@ body{
 
 <header class="appbar">
   <div class="appbar-inner">
-    <div>
-      <div class="app-eyebrow">Carry-forward, automated</div>
-      <div class="app-title">Sector Log</div>
-    </div>
+    <div class="app-eyebrow">Carry-forward, automated</div>
+    <div class="app-title">Sector Log</div>
   </div>
 </header>
 
-<!-- ══════════════════════════════════════════
-     PHASE 1 — SETUP
-══════════════════════════════════════════ -->
+<!-- ══════════ PHASE 1 — SETUP ══════════ -->
 <div class="phase active" id="ph-setup">
   <div class="wrap">
     <div class="card">
       <div class="card-title">Aircraft Totals — Start of Page</div>
-
       <div class="setup-row">
         <div class="setup-field">
           <div class="sf-lbl">Flight Hours</div>
           <div class="sf-inputs">
-            <input type="text" inputmode="numeric" pattern="[0-9]*"
-                   class="sf-inp hours" id="setup-bfh" placeholder="Hours" maxlength="5">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="sf-inp hours" id="setup-bfh" placeholder="Hours" maxlength="5">
             <div class="sf-sep">:</div>
-            <input type="text" inputmode="numeric" pattern="[0-9]*"
-                   class="sf-inp minutes" id="setup-bfm" placeholder="Min" maxlength="2">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="sf-inp minutes" id="setup-bfm" placeholder="Min" maxlength="2">
           </div>
         </div>
         <div class="setup-field">
           <div class="sf-lbl">Landings</div>
-          <input type="text" inputmode="numeric" pattern="[0-9]*"
-                 class="sf-inp landings" id="setup-bfl" placeholder="Landings" maxlength="5">
+          <input type="text" inputmode="numeric" pattern="[0-9]*" class="sf-inp landings" id="setup-bfl" placeholder="Landings" maxlength="5">
         </div>
       </div>
-
       <button class="btn-primary" onclick="beginPage()">Begin Page →</button>
     </div>
     <div class="footer">Sector Log · Reference only · Not a substitute for the paper technical log</div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════
-     PHASE 2 — ACTIVE SECTORS
+<!-- ══════════ PHASE 2 — ACTIVE ══════════
+     Sectors are ordered top→bottom in DOM as 4,3,2,1
+     so that newly revealed sectors appear ABOVE existing ones,
+     matching the paper log which builds up the page.
 ══════════════════════════════════════════ -->
 <div class="phase" id="ph-active">
   <div class="wrap">
@@ -192,215 +179,152 @@ body{
       <div class="chip-edit">EDIT</div>
     </div>
 
-    <!-- SECTOR 1 — always shown once active -->
+    <!-- Sector 4 — top of page, hidden until added -->
+    <div class="card" id="sc-4" style="display:none;">
+      <div class="sector-head">
+        <div class="s-badge">4</div>
+        <div class="s-label">Sector 4</div>
+        <div class="s-pos">Top of page</div>
+      </div>
+      <div class="grp-lbl">Flight Hours</div>
+      <div class="flow-row">
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
+        <div class="time-stepper">
+          <div class="ts-unit">
+            <div class="ts-row"><button class="ts-btn" onclick="adjH(4,-1)">−</button><div class="ts-val" id="s4-fh-val">00</div><button class="ts-btn" onclick="adjH(4,1)">+</button></div>
+            <div class="ts-lbl">HRS</div>
+          </div>
+          <div class="ts-sep">:</div>
+          <div class="ts-unit">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="min-input" id="s4-fm-inp" placeholder="00" maxlength="2" oninput="setM(4,this.value)" onblur="normM(4)">
+            <div class="ts-lbl">MIN</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout hours" id="s4-bf">0:00</div></div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf hours" id="s4-cf">0:00</div></div>
+      <div class="divider"></div>
+      <div class="grp-lbl">Landings</div>
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout landings" id="s4-landbf">0</div></div>
+      <div class="flow-row">
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
+        <div class="land-wheel" id="s4-lw">
+          <div class="land-wheel-ft"></div><div class="land-wheel-track"><div class="land-wheel-item">1</div><div class="land-wheel-item">2</div><div class="land-wheel-item">3</div></div><div class="land-wheel-fb"></div><div class="land-wheel-hl"></div>
+        </div>
+      </div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf landings" id="s4-landcf">0</div></div>
+    </div>
+
+    <!-- Sector 3 — hidden until added -->
+    <div class="card" id="sc-3" style="display:none;">
+      <div class="sector-head">
+        <div class="s-badge">3</div>
+        <div class="s-label">Sector 3</div>
+      </div>
+      <div class="grp-lbl">Flight Hours</div>
+      <div class="flow-row">
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
+        <div class="time-stepper">
+          <div class="ts-unit">
+            <div class="ts-row"><button class="ts-btn" onclick="adjH(3,-1)">−</button><div class="ts-val" id="s3-fh-val">00</div><button class="ts-btn" onclick="adjH(3,1)">+</button></div>
+            <div class="ts-lbl">HRS</div>
+          </div>
+          <div class="ts-sep">:</div>
+          <div class="ts-unit">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="min-input" id="s3-fm-inp" placeholder="00" maxlength="2" oninput="setM(3,this.value)" onblur="normM(3)">
+            <div class="ts-lbl">MIN</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout hours" id="s3-bf">0:00</div></div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf hours" id="s3-cf">0:00</div></div>
+      <div class="divider"></div>
+      <div class="grp-lbl">Landings</div>
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout landings" id="s3-landbf">0</div></div>
+      <div class="flow-row">
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
+        <div class="land-wheel" id="s3-lw">
+          <div class="land-wheel-ft"></div><div class="land-wheel-track"><div class="land-wheel-item">1</div><div class="land-wheel-item">2</div><div class="land-wheel-item">3</div></div><div class="land-wheel-fb"></div><div class="land-wheel-hl"></div>
+        </div>
+      </div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf landings" id="s3-landcf">0</div></div>
+    </div>
+
+    <!-- Sector 2 — hidden until added -->
+    <div class="card" id="sc-2" style="display:none;">
+      <div class="sector-head">
+        <div class="s-badge">2</div>
+        <div class="s-label">Sector 2</div>
+      </div>
+      <div class="grp-lbl">Flight Hours</div>
+      <div class="flow-row">
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
+        <div class="time-stepper">
+          <div class="ts-unit">
+            <div class="ts-row"><button class="ts-btn" onclick="adjH(2,-1)">−</button><div class="ts-val" id="s2-fh-val">00</div><button class="ts-btn" onclick="adjH(2,1)">+</button></div>
+            <div class="ts-lbl">HRS</div>
+          </div>
+          <div class="ts-sep">:</div>
+          <div class="ts-unit">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="min-input" id="s2-fm-inp" placeholder="00" maxlength="2" oninput="setM(2,this.value)" onblur="normM(2)">
+            <div class="ts-lbl">MIN</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout hours" id="s2-bf">0:00</div></div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf hours" id="s2-cf">0:00</div></div>
+      <div class="divider"></div>
+      <div class="grp-lbl">Landings</div>
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout landings" id="s2-landbf">0</div></div>
+      <div class="flow-row">
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
+        <div class="land-wheel" id="s2-lw">
+          <div class="land-wheel-ft"></div><div class="land-wheel-track"><div class="land-wheel-item">1</div><div class="land-wheel-item">2</div><div class="land-wheel-item">3</div></div><div class="land-wheel-fb"></div><div class="land-wheel-hl"></div>
+        </div>
+      </div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf landings" id="s2-landcf">0</div></div>
+    </div>
+
+    <!-- Sector 1 — bottom of page, always shown in active phase -->
     <div class="card" id="sc-1">
       <div class="sector-head">
         <div class="s-badge">1</div>
         <div class="s-label">Sector 1</div>
         <div class="s-pos">Bottom of page</div>
       </div>
-
       <div class="grp-lbl">Flight Hours</div>
       <div class="flow-row">
-        <div class="flow-op"></div>
-        <div class="flow-lbl ed">This Sector</div>
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
         <div class="time-stepper">
           <div class="ts-unit">
-            <div class="ts-row">
-              <button class="ts-btn" onclick="adjH(1,-1)">−</button>
-              <div class="ts-val" id="s1-fh-val">00</div>
-              <button class="ts-btn" onclick="adjH(1,1)">+</button>
-            </div>
+            <div class="ts-row"><button class="ts-btn" onclick="adjH(1,-1)">−</button><div class="ts-val" id="s1-fh-val">00</div><button class="ts-btn" onclick="adjH(1,1)">+</button></div>
             <div class="ts-lbl">HRS</div>
           </div>
           <div class="ts-sep">:</div>
           <div class="ts-unit">
-            <input type="text" inputmode="numeric" pattern="[0-9]*"
-                   class="min-input" id="s1-fm-inp" placeholder="00" maxlength="2"
-                   oninput="setM(1,this.value)" onblur="normM(1)">
+            <input type="text" inputmode="numeric" pattern="[0-9]*" class="min-input" id="s1-fm-inp" placeholder="00" maxlength="2" oninput="setM(1,this.value)" onblur="normM(1)">
             <div class="ts-lbl">MIN</div>
           </div>
         </div>
       </div>
-      <div class="flow-row">
-        <div class="flow-op">+</div>
-        <div class="flow-lbl">Brought Forward</div>
-        <div class="readout hours" id="s1-bf">0:00</div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op">=</div>
-        <div class="flow-lbl">Carry Forward</div>
-        <div class="readout cf hours" id="s1-cf">0:00</div>
-      </div>
-
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout hours" id="s1-bf">0:00</div></div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf hours" id="s1-cf">0:00</div></div>
       <div class="divider"></div>
       <div class="grp-lbl">Landings</div>
+      <div class="flow-row"><div class="flow-op">+</div><div class="flow-lbl">Brought Forward</div><div class="readout landings" id="s1-landbf">0</div></div>
       <div class="flow-row">
-        <div class="flow-op">+</div>
-        <div class="flow-lbl">Brought Forward</div>
-        <div class="readout landings" id="s1-landbf">0</div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op"></div>
-        <div class="flow-lbl ed">This Sector</div>
+        <div class="flow-op"></div><div class="flow-lbl ed">This Sector</div>
         <div class="land-wheel" id="s1-lw">
-          <div class="land-wheel-ft"></div>
-          <div class="land-wheel-track">
-            <div class="land-wheel-item">1</div>
-            <div class="land-wheel-item">2</div>
-            <div class="land-wheel-item">3</div>
-          </div>
-          <div class="land-wheel-fb"></div>
-          <div class="land-wheel-hl"></div>
+          <div class="land-wheel-ft"></div><div class="land-wheel-track"><div class="land-wheel-item">1</div><div class="land-wheel-item">2</div><div class="land-wheel-item">3</div></div><div class="land-wheel-fb"></div><div class="land-wheel-hl"></div>
         </div>
       </div>
-      <div class="flow-row">
-        <div class="flow-op">=</div>
-        <div class="flow-lbl">Carry Forward</div>
-        <div class="readout cf landings" id="s1-landcf">0</div>
-      </div>
+      <div class="flow-row"><div class="flow-op">=</div><div class="flow-lbl">Carry Forward</div><div class="readout cf landings" id="s1-landcf">0</div></div>
     </div>
 
-    <!-- SECTOR 2 — revealed after Add Sector -->
-    <div class="card" id="sc-2" style="display:none;">
-      <div class="sector-head">
-        <div class="s-badge">2</div>
-        <div class="s-label">Sector 2</div>
-      </div>
-
-      <div class="grp-lbl">Flight Hours</div>
-      <div class="flow-row">
-        <div class="flow-op"></div>
-        <div class="flow-lbl ed">This Sector</div>
-        <div class="time-stepper">
-          <div class="ts-unit">
-            <div class="ts-row">
-              <button class="ts-btn" onclick="adjH(2,-1)">−</button>
-              <div class="ts-val" id="s2-fh-val">00</div>
-              <button class="ts-btn" onclick="adjH(2,1)">+</button>
-            </div>
-            <div class="ts-lbl">HRS</div>
-          </div>
-          <div class="ts-sep">:</div>
-          <div class="ts-unit">
-            <input type="text" inputmode="numeric" pattern="[0-9]*"
-                   class="min-input" id="s2-fm-inp" placeholder="00" maxlength="2"
-                   oninput="setM(2,this.value)" onblur="normM(2)">
-            <div class="ts-lbl">MIN</div>
-          </div>
-        </div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op">+</div>
-        <div class="flow-lbl">Brought Forward</div>
-        <div class="readout hours" id="s2-bf">0:00</div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op">=</div>
-        <div class="flow-lbl">Carry Forward</div>
-        <div class="readout cf hours" id="s2-cf">0:00</div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="grp-lbl">Landings</div>
-      <div class="flow-row">
-        <div class="flow-op">+</div>
-        <div class="flow-lbl">Brought Forward</div>
-        <div class="readout landings" id="s2-landbf">0</div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op"></div>
-        <div class="flow-lbl ed">This Sector</div>
-        <div class="land-wheel" id="s2-lw">
-          <div class="land-wheel-ft"></div>
-          <div class="land-wheel-track">
-            <div class="land-wheel-item">1</div>
-            <div class="land-wheel-item">2</div>
-            <div class="land-wheel-item">3</div>
-          </div>
-          <div class="land-wheel-fb"></div>
-          <div class="land-wheel-hl"></div>
-        </div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op">=</div>
-        <div class="flow-lbl">Carry Forward</div>
-        <div class="readout cf landings" id="s2-landcf">0</div>
-      </div>
-    </div>
-
-    <!-- SECTOR 3 — revealed after second Add Sector -->
-    <div class="card" id="sc-3" style="display:none;">
-      <div class="sector-head">
-        <div class="s-badge">3</div>
-        <div class="s-label">Sector 3</div>
-        <div class="s-pos">Top of page</div>
-      </div>
-
-      <div class="grp-lbl">Flight Hours</div>
-      <div class="flow-row">
-        <div class="flow-op"></div>
-        <div class="flow-lbl ed">This Sector</div>
-        <div class="time-stepper">
-          <div class="ts-unit">
-            <div class="ts-row">
-              <button class="ts-btn" onclick="adjH(3,-1)">−</button>
-              <div class="ts-val" id="s3-fh-val">00</div>
-              <button class="ts-btn" onclick="adjH(3,1)">+</button>
-            </div>
-            <div class="ts-lbl">HRS</div>
-          </div>
-          <div class="ts-sep">:</div>
-          <div class="ts-unit">
-            <input type="text" inputmode="numeric" pattern="[0-9]*"
-                   class="min-input" id="s3-fm-inp" placeholder="00" maxlength="2"
-                   oninput="setM(3,this.value)" onblur="normM(3)">
-            <div class="ts-lbl">MIN</div>
-          </div>
-        </div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op">+</div>
-        <div class="flow-lbl">Brought Forward</div>
-        <div class="readout hours" id="s3-bf">0:00</div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op">=</div>
-        <div class="flow-lbl">Carry Forward</div>
-        <div class="readout cf hours" id="s3-cf">0:00</div>
-      </div>
-
-      <div class="divider"></div>
-      <div class="grp-lbl">Landings</div>
-      <div class="flow-row">
-        <div class="flow-op">+</div>
-        <div class="flow-lbl">Brought Forward</div>
-        <div class="readout landings" id="s3-landbf">0</div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op"></div>
-        <div class="flow-lbl ed">This Sector</div>
-        <div class="land-wheel" id="s3-lw">
-          <div class="land-wheel-ft"></div>
-          <div class="land-wheel-track">
-            <div class="land-wheel-item">1</div>
-            <div class="land-wheel-item">2</div>
-            <div class="land-wheel-item">3</div>
-          </div>
-          <div class="land-wheel-fb"></div>
-          <div class="land-wheel-hl"></div>
-        </div>
-      </div>
-      <div class="flow-row">
-        <div class="flow-op">=</div>
-        <div class="flow-lbl">Carry Forward</div>
-        <div class="readout cf landings" id="s3-landcf">0</div>
-      </div>
-    </div>
-
-    <!-- Action buttons -->
-    <button class="btn-add" id="btn-add" onclick="handleAdd()">Add Sector 2 →</button>
-    <button class="btn-reset-sm" onclick="resetAll()">Reset / New Page</button>
+    <!-- Action buttons — fixed below Sector 1 -->
+    <button class="btn-add" id="btn-add" onclick="addSector()">Add Sector 2 →</button>
+    <button class="btn-newpage" id="btn-newpage" onclick="handleNewPage()">New Page →</button>
+    <button class="btn-reset-sm" onclick="resetAll()">Reset</button>
 
     <div class="footer">Sector Log · Reference only · Not a substitute for the paper technical log</div>
   </div>
@@ -411,12 +335,11 @@ body{
 
 /* ── State ───────────────────────────────── */
 var S = {
-  phase: 'setup',
-  visible: 1,           // sectors visible: 1, 2 or 3
-  fh: [0,0,0], fm: [0,0,0], land: [1,1,1],
-  bfH: 0, bfM: 0, bfLand: 0
+  phase:'setup', visible:1,
+  fh:[0,0,0,0], fm:[0,0,0,0], land:[1,1,1,1],
+  bfH:0, bfM:0, bfLand:0
 };
-var STORE = 'sector-log-v3';
+var STORE='sector-log-v4';
 function save(){ try{ localStorage.setItem(STORE,JSON.stringify(S)); }catch(e){} }
 function load(){ try{ var d=localStorage.getItem(STORE); if(d) Object.assign(S,JSON.parse(d)); }catch(e){} }
 
@@ -427,28 +350,43 @@ function pad2(n){ return String(n).padStart(2,'0'); }
 function fmtHM(m){ if(m<0)m=0; return Math.floor(m/60)+':'+pad2(m%60); }
 function readInt(v){ var n=parseInt(v,10); return isNaN(n)||n<0?0:n; }
 
-/* ── Hours stepper ───────────────────────── */
-function adjH(s,d){
-  var i=s-1;
-  S.fh[i]=Math.max(0,Math.min(23,S.fh[i]+d));
-  el('s'+s+'-fh-val').textContent=pad2(S.fh[i]);
-  render(); save();
+/* ── Cumulative totals at each sector ────── */
+function computeTotals(){
+  var bfMin=S.bfH*60+S.bfM, bfL=S.bfLand;
+  var cf=[0,0,0,0], lcf=[0,0,0,0];
+  for(var i=0;i<4;i++){
+    var prev=(i===0)?bfMin:cf[i-1];
+    var prevL=(i===0)?bfL:lcf[i-1];
+    cf[i]=prev+S.fh[i]*60+S.fm[i];
+    lcf[i]=prevL+S.land[i];
+  }
+  return {cf:cf, lcf:lcf};
 }
 
-/* ── Minutes input ───────────────────────── */
-function setM(s,v){
-  var n=parseInt(v,10);
-  S.fm[s-1]=isNaN(n)?0:Math.max(0,Math.min(59,n));
-  render(); save();
+/* ── Render ──────────────────────────────── */
+function render(){
+  var t=computeTotals();
+  var bfMin=S.bfH*60+S.bfM;
+
+  setText('s1-bf',fmtHM(bfMin));       setText('s1-landbf',String(S.bfLand));
+  setText('s1-cf',fmtHM(t.cf[0]));     setText('s1-landcf',String(t.lcf[0]));
+
+  setText('s2-bf',fmtHM(t.cf[0]));     setText('s2-landbf',String(t.lcf[0]));
+  setText('s2-cf',fmtHM(t.cf[1]));     setText('s2-landcf',String(t.lcf[1]));
+
+  setText('s3-bf',fmtHM(t.cf[1]));     setText('s3-landbf',String(t.lcf[1]));
+  setText('s3-cf',fmtHM(t.cf[2]));     setText('s3-landcf',String(t.lcf[2]));
+
+  setText('s4-bf',fmtHM(t.cf[2]));     setText('s4-landbf',String(t.lcf[2]));
+  setText('s4-cf',fmtHM(t.cf[3]));     setText('s4-landcf',String(t.lcf[3]));
+
+  save();
 }
-function normM(s){
-  var inp=el('s'+s+'-fm-inp');
-  var n=parseInt(inp.value,10);
-  if(isNaN(n)||n<0) n=0;
-  if(n>59) n=59;
-  inp.value=inp.value===''?'':pad2(n);
-  S.fm[s-1]=n; render(); save();
-}
+
+/* ── Steppers & inputs ───────────────────── */
+function adjH(s,d){ var i=s-1; S.fh[i]=Math.max(0,Math.min(23,S.fh[i]+d)); el('s'+s+'-fh-val').textContent=pad2(S.fh[i]); render(); }
+function setM(s,v){ var n=parseInt(v,10); S.fm[s-1]=isNaN(n)?0:Math.max(0,Math.min(59,n)); render(); }
+function normM(s){ var inp=el('s'+s+'-fm-inp'); var n=parseInt(inp.value,10); if(isNaN(n)||n<0)n=0; if(n>59)n=59; inp.value=inp.value===''?'':pad2(n); S.fm[s-1]=n; render(); }
 
 /* ── Landing wheels ──────────────────────── */
 var lw={};
@@ -462,33 +400,13 @@ function initLandWheel(s){
     t=setTimeout(function(){
       var idx=Math.max(0,Math.min(2,Math.round(wheel.scrollTop/itemH)));
       wheel.scrollTo({top:idx*itemH,behavior:'smooth'});
-      var v=idx+1;
-      if(v!==current){ current=v; S.land[s-1]=v; render(); save(); }
+      var v=idx+1; if(v!==current){ current=v; S.land[s-1]=v; render(); }
     },150);
   },{passive:true});
-  lw[s]={ getValue:function(){return current;}, setValue:function(v){current=v;S.land[s-1]=v;wheel.scrollTo({top:(v-1)*itemH,behavior:'auto'});} };
-}
-
-/* ── Render ──────────────────────────────── */
-function render(){
-  var bfMin=S.bfH*60+S.bfM, bfLand=S.bfLand;
-
-  var s1f=S.fh[0]*60+S.fm[0];
-  var s1Cf=bfMin+s1f, s1LCf=bfLand+S.land[0];
-  setText('s1-bf',fmtHM(bfMin)); setText('s1-landbf',String(bfLand));
-  setText('s1-cf',fmtHM(s1Cf)); setText('s1-landcf',String(s1LCf));
-
-  var s2f=S.fh[1]*60+S.fm[1];
-  var s2Cf=s1Cf+s2f, s2LCf=s1LCf+S.land[1];
-  setText('s2-bf',fmtHM(s1Cf)); setText('s2-landbf',String(s1LCf));
-  setText('s2-cf',fmtHM(s2Cf)); setText('s2-landcf',String(s2LCf));
-
-  var s3f=S.fh[2]*60+S.fm[2];
-  var s3Cf=s2Cf+s3f, s3LCf=s2LCf+S.land[2];
-  setText('s3-bf',fmtHM(s2Cf)); setText('s3-landbf',String(s2LCf));
-  setText('s3-cf',fmtHM(s3Cf)); setText('s3-landcf',String(s3LCf));
-
-  save();
+  lw[s]={
+    getValue:function(){return current;},
+    setValue:function(v){ current=v; S.land[s-1]=v; wheel.scrollTo({top:(v-1)*itemH,behavior:'auto'}); }
+  };
 }
 
 /* ── Chip ────────────────────────────────── */
@@ -499,58 +417,44 @@ function updateChip(){
 /* ── Add sector button ───────────────────── */
 function updateAddBtn(){
   var btn=el('btn-add');
-  if(S.visible>=3){
-    btn.textContent='New Page →';
-    btn.className='btn-add'; // reset armed state
-  } else {
-    btn.textContent='Add Sector '+(S.visible+1)+' →';
-    btn.className='btn-add';
-  }
-  addArmed=false;
+  if(S.visible<4){ btn.style.display='block'; btn.textContent='Add Sector '+(S.visible+1)+' →'; }
+  else { btn.style.display='none'; }
 }
 
-var addArmed=false, addTimer=null;
-function handleAdd(){
-  var btn=el('btn-add');
-  if(S.visible<3){
-    // Just reveal next sector — no confirm needed
-    S.visible++;
-    el('sc-'+S.visible).style.display='block';
-    el('sc-'+S.visible).scrollIntoView({behavior:'smooth',block:'start'});
-    updateAddBtn();
-    save();
+function addSector(){
+  if(S.visible>=4) return;
+  S.visible++;
+  // sc-4,3,2 are above sc-1 in DOM — showing them inserts above
+  el('sc-'+S.visible).style.display='block';
+  updateAddBtn();
+  save();
+  // Scroll to the newly revealed sector
+  setTimeout(function(){ el('sc-'+S.visible).scrollIntoView({behavior:'smooth',block:'start'}); },50);
+}
+
+/* ── New Page (tap-to-confirm) ───────────── */
+var npArmed=false, npTimer=null;
+function handleNewPage(){
+  var btn=el('btn-newpage');
+  var t=computeTotals();
+  var lastCf=t.cf[S.visible-1];
+  var lastLcf=t.lcf[S.visible-1];
+  if(!npArmed){
+    npArmed=true;
+    btn.textContent='Confirm: carry '+fmtHM(lastCf)+' · '+lastLcf+' ldg →';
+    btn.classList.add('armed');
+    npTimer=setTimeout(function(){ npArmed=false; btn.textContent='New Page →'; btn.classList.remove('armed'); },4000);
   } else {
-    // New page — tap-to-confirm
-    if(!addArmed){
-      addArmed=true;
-      btn.textContent='Confirm: carry '+fmtHM(S.bfH*60+S.bfM+S.fh[0]*60+S.fm[0]+S.fh[1]*60+S.fm[1]+S.fh[2]*60+S.fm[2])+' →';
-      btn.classList.add('armed');
-      addTimer=setTimeout(function(){ addArmed=false; updateAddBtn(); },4000);
-    } else {
-      clearTimeout(addTimer);
-      doNewPage();
-    }
+    clearTimeout(npTimer); npArmed=false; btn.classList.remove('armed');
+    doNewPage(lastCf,lastLcf);
   }
 }
 
-function doNewPage(){
-  // Compute S3 CF
-  var bfMin=S.bfH*60+S.bfM;
-  var s1Cf=bfMin+S.fh[0]*60+S.fm[0];
-  var s2Cf=s1Cf+S.fh[1]*60+S.fm[1];
-  var s3Cf=s2Cf+S.fh[2]*60+S.fm[2];
-  var bfLand=S.bfLand;
-  var s3LCf=bfLand+S.land[0]+S.land[1]+S.land[2];
-
-  // Pre-fill setup with S3 CF values
-  el('setup-bfh').value=Math.floor(s3Cf/60);
-  el('setup-bfm').value=pad2(s3Cf%60);
-  el('setup-bfl').value=s3LCf;
-
-  // Reset sector inputs
+function doNewPage(cfMin,cfLand){
+  el('setup-bfh').value=Math.floor(cfMin/60);
+  el('setup-bfm').value=pad2(cfMin%60);
+  el('setup-bfl').value=cfLand;
   resetSectors();
-
-  // Go to setup
   showPhase('setup');
 }
 
@@ -562,22 +466,19 @@ function showPhase(name){
 }
 
 function beginPage(){
-  var bfH=readInt(el('setup-bfh').value);
-  var bfM=Math.min(59,readInt(el('setup-bfm').value));
-  var bfLand=readInt(el('setup-bfl').value);
-  S.bfH=bfH; S.bfM=bfM; S.bfLand=bfLand;
+  S.bfH=readInt(el('setup-bfh').value);
+  S.bfM=Math.min(59,readInt(el('setup-bfm').value));
+  S.bfLand=readInt(el('setup-bfl').value);
   S.visible=1;
-  // Hide sectors 2 and 3
-  el('sc-2').style.display='none';
-  el('sc-3').style.display='none';
-  updateChip();
-  updateAddBtn();
-  render();
+  // Hide sectors 2-4
+  [2,3,4].forEach(function(s){ el('sc-'+s).style.display='none'; });
+  updateChip(); updateAddBtn(); render();
+  el('btn-newpage').textContent='New Page →';
+  el('btn-newpage').classList.remove('armed');
   showPhase('active');
 }
 
 function editSetup(){
-  // Pre-fill setup fields with current BF values
   el('setup-bfh').value=S.bfH||'';
   el('setup-bfm').value=S.bfM>0?pad2(S.bfM):'';
   el('setup-bfl').value=S.bfLand||'';
@@ -585,8 +486,8 @@ function editSetup(){
 }
 
 function resetSectors(){
-  S.fh=[0,0,0]; S.fm=[0,0,0]; S.land=[1,1,1];
-  [1,2,3].forEach(function(s){
+  S.fh=[0,0,0,0]; S.fm=[0,0,0,0]; S.land=[1,1,1,1];
+  [1,2,3,4].forEach(function(s){
     el('s'+s+'-fh-val').textContent='00';
     el('s'+s+'-fm-inp').value='';
     if(lw[s]) lw[s].setValue(1);
@@ -596,37 +497,27 @@ function resetSectors(){
 function resetAll(){
   resetSectors();
   S.bfH=0; S.bfM=0; S.bfLand=0;
-  el('setup-bfh').value='';
-  el('setup-bfm').value='';
-  el('setup-bfl').value='';
+  el('setup-bfh').value=''; el('setup-bfm').value=''; el('setup-bfl').value='';
   showPhase('setup');
 }
 
 /* ── Restore from saved state ────────────── */
 function restoreUI(){
-  [1,2,3].forEach(function(s){
+  [1,2,3,4].forEach(function(s){
     el('s'+s+'-fh-val').textContent=pad2(S.fh[s-1]);
     if(S.fm[s-1]>0) el('s'+s+'-fm-inp').value=pad2(S.fm[s-1]);
     if(lw[s]) lw[s].setValue(S.land[s-1]);
+    el('sc-'+s).style.display=(s===1||s<=S.visible)?'block':'none';
   });
-  // Show the right sectors
-  el('sc-2').style.display=S.visible>=2?'block':'none';
-  el('sc-3').style.display=S.visible>=3?'block':'none';
-  updateChip();
-  updateAddBtn();
+  updateChip(); updateAddBtn();
 }
 
 /* ── Init ────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',function(){
   load();
-  [1,2,3].forEach(initLandWheel);
-  if(S.phase==='active'){
-    restoreUI();
-    render();
-    showPhase('active');
-  } else {
-    showPhase('setup');
-  }
+  [1,2,3,4].forEach(initLandWheel);
+  if(S.phase==='active'){ restoreUI(); render(); showPhase('active'); }
+  else { showPhase('setup'); }
 });
 </script>
 </body>
